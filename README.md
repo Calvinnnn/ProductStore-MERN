@@ -16,8 +16,8 @@ Read these guides in order:
 
 ### Step 1: Install Backend
 ```bash
-cd backend
-npm install
+
+npm run dev
 ```
 
 ### Step 2: Install Frontend  
