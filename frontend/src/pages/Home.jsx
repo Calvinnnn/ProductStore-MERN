@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import productService from '../services/productService';
+import Loading from '../components/Loading';
 import '../styles/Home.css';
 
 const Home = () => {
@@ -49,6 +50,8 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      {loading && <Loading />}
+      
       <header className="header">
         <h1>Product Store</h1>
         <Link to="/create" className="btn-create">
@@ -58,43 +61,39 @@ const Home = () => {
 
       {error && <div className="error-message">{error}</div>}
 
-      {loading ? (
-        <div className="loading">Loading products...</div>
-      ) : (
-        <div className="products-container">
-          {products.length === 0 ? (
-            <div className="no-products">
-              <p>No products found.</p>
-              <Link to="/create" className="btn-create-secondary">
-                Create your first product
-              </Link>
-            </div>
-          ) : (
-            <div className="products-grid">
-              {products.map((product) => (
-                <div key={product._id} className="product-card">
-                  <img src={product.image} alt={product.name} className="product-image" />
-                  <div className="product-info">
-                    <h3>{product.name}</h3>
-                    <p className="product-price">${product.price}</p>
-                    <div className="product-actions">
-                      <Link to={`/edit/${product._id}`} className="btn-edit">
-                        Edit
-                      </Link>
-                      <button
-                        onClick={() => handleDelete(product._id)}
-                        className="btn-delete"
-                      >
-                        Delete
-                      </button>
-                    </div>
+      <div className="products-container">
+        {products.length === 0 && !loading ? (
+          <div className="no-products">
+            <p>No products found.</p>
+            <Link to="/create" className="btn-create-secondary">
+              Create your first product
+            </Link>
+          </div>
+        ) : (
+          <div className="products-grid">
+            {products.map((product) => (
+              <div key={product._id} className="product-card">
+                <img src={product.image} alt={product.name} className="product-image" />
+                <div className="product-info">
+                  <h3>{product.name}</h3>
+                  <p className="product-price">${product.price}</p>
+                  <div className="product-actions">
+                    <Link to={`/edit/${product._id}`} className="btn-edit">
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(product._id)}
+                      className="btn-delete"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
