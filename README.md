@@ -29,7 +29,7 @@ npm install
 ### Step 3: Run Both
 ```bash
 # Terminal 1 - Backend
-cd backend && npm run dev
+ npm run dev
 
 # Terminal 2 - Frontend
 cd frontend && npm run dev
