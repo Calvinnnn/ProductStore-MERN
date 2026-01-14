@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from "dotenv";
 import { connectDB } from './config/dp.js';
 import Product from './modles/product.model.js';
+import mongoose from 'mongoose';
 dotenv.config();
 const app = express();
 
@@ -35,7 +36,6 @@ app.post("/api/products", async (req,res)=>{
     }
 });
 
-
 app.delete("/api/products/:id",async (req,res)=>{
    const {id} = req.params;
    console.log("Deleting product with id:",id);
@@ -59,6 +59,24 @@ app.get("/api/products",async (req,res)=>{
         res.status(500).json({succsess:false,message:"Server Error"});
     }   
 });
+
+app.put("/api/products/:id",async (req,res)=>{
+    const{id} = req.params;
+    const product = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json({succsess:false,message:"Invalid product ID"});
+    }
+
+    try{
+        const updatedProduct = await Product.findByIdAndUpdate(id,product,{new:true});
+        res.status(200).json({succsess:true,data:updatedProduct});
+    }catch(error){
+        console.log("Error in updating product:",error.message)
+        res.status(500).json({succsess:false,message:"Server Error"});
+    }
+});
+
 
 console.log(process.env.MONGO_URI);
 
