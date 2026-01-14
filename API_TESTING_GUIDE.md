@@ -4,7 +4,7 @@
 
 Before starting the frontend, ensure the backend is running:
 ```bash
-cd backend
+
 npm run dev
 ```
 You should see: `Server started at http://localhost:5000`
