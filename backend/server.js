@@ -1,10 +1,17 @@
 import express from 'express';
 import dotenv from "dotenv";
+import cors from 'cors';
 import { connectDB } from './config/db.js';
 import productRoutes from './routes/product.route.js';
 
 dotenv.config();
 const app = express();
+
+// Enable CORS - Allow requests from frontend
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 app.use(express.json()); //allow to use accept json data in the req.body
 
